@@ -20,7 +20,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Topic {
-	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
@@ -38,4 +37,12 @@ public class Topic {
 	
 	@OneToMany(mappedBy = "topic")
 	private List<Answer> answers = new ArrayList<>();
+
+	public Topic() {}
+
+	public Topic(String title, String message, Course course) {
+		this.title = title;
+		this.message =  message;
+		this.course = course;
+	}
 }
