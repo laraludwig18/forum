@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import br.com.alura.forum.model.Topic;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 @Data
 public class TopicDto {
@@ -21,7 +22,7 @@ public class TopicDto {
 		this.creationDate = topic.getCreationDate();
 	}
 
-	public static List<TopicDto> convert(List<Topic> topics) {
-		return topics.stream().map(TopicDto::new).collect(Collectors.toList());
+	public static Page<TopicDto> convert(Page<Topic> topics) {
+		return topics.map(TopicDto::new);
 	}
 }

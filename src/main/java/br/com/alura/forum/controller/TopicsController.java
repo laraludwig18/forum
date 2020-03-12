@@ -9,6 +9,11 @@ import br.com.alura.forum.controller.form.TopicForm;
 import br.com.alura.forum.controller.form.UpdateTopicForm;
 import br.com.alura.forum.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,13 +36,12 @@ public class TopicsController {
 	private CourseRepository courseRepository;
 
 	@GetMapping
-	public List<TopicDto> list(String courseName) {
-		List<Topic> topics;
+	public Page<TopicDto> list(@RequestParam(required = false) String courseName, @PageableDefault(page = 0, size = 10) Pageable pagination) {
+		Page<Topic> topics;
 
-		topics = courseName == null 
-				? topicRepository.findAll()
-				: topicRepository.findByCourse_Name(courseName);
-
+		topics = courseName == null
+			? topicRepository.findAll(pagination)
+			: topicRepository.findByCourse_Name(courseName, pagination);
 
 		return TopicDto.convert(topics);
 	}
